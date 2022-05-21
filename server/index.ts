@@ -14,15 +14,23 @@ nextApp.prepare().then(async () => {
   const io = new socketio.Server();
   io.attach(server);
 
-  io.on("connection", (socket: socketio.Socket) => {
+  io.on("connection", (socket) => {
     console.log("connection");
-    socket.emit("hello", "Hello from Socket.io");
-
     socket.on("disconnect", () => {
       console.log("client disconnected");
     });
-    socket.on("emit", (data) => {
-      console.log(data);
+
+    socket.on("join", (roomId) => {
+      socket.join(roomId);
+      console.log(`joined to ${roomId}`);
+    });
+
+    socket.on("message", (data) => {
+      console.log(JSON.stringify(data));
+      io.to(data.roomId).emit("message", {
+        content: data.content,
+        userName: data.userName,
+      });
     });
   });
 
