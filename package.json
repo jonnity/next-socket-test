@@ -4,9 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "ts-node-dev server.ts",
-    "build": "next build",
-    "start": "next start",
+    "dev": "ts-node-dev server/index.ts",
+    "build:next": "next build",
+    "build:server": "tsc --project tsconfig.server.json",
+    "build": "npm run build:next && npm run build:server",
+    "start": "set NODE_ENV=production & node dist/index.js",
     "lint": "next lint"
   },
   "dependencies": {

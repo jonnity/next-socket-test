@@ -26,7 +26,7 @@ nextApp.prepare().then(async () => {
     });
   });
 
-  app.all("*", (req: any, res: any) => nextHandler(req, res));
+  app.all("*", (req: Request, res: Response) => nextHandler(req, res));
 
   server.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);
